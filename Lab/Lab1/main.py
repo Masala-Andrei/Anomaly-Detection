@@ -69,7 +69,10 @@ Y = np.vstack([Y_in, anomalies])
 labels = np.hstack([np.zeros(n_in), np.ones(n_out)])
 
 L_inv = np.linalg.inv(L)
-z = (Y - mu) @ L_inv.T
+z = (Y - mu) @ L_inv.T   # Pun si explicatia la formula pentru ca initial o intuiam dar nu stiam exact daca merge
+                            # din Mahalanobis vine ca d^2 = (y - mu)^T * Sigma^-1 * (y - mu)
+                            # inlocuiesc sigma^-1 cu L^-T * L^-1
+                            # si vine (y - mu)^T * L^-T * L^-1 * (y - mu), care e basically z * z^T
 scores = np.sqrt(z[:, 0]**2 + z[:, 1]**2)
 
 threshold = np.quantile(scores, 1 - contamination)
